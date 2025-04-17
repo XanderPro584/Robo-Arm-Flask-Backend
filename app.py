@@ -14,6 +14,8 @@ try:
 except Exception as e:
     print(f"Error connecting to robot arm: {e}")
     
+current_position = {'x':1, 'y':2, 'z':3}
+    
 @app.route('/api/home')
 def home():
     try:
@@ -36,13 +38,12 @@ def serve_static(path):
     else:
         # Fallback for React Router: serve index.html
         return send_from_directory(app.static_folder, 'index.html')
-
-# Your API route (example: move the robotic arm)
-@app.route('/api/move', methods=['GET'])
-def move():
-    direction = request.args.get('direction')
-    print(f"Received move command: {direction}")  # Replace this with hardware control
-    return jsonify({'status': f'Moving {direction}'})
+    
+    
+    
+@app.route('/api/position')
+def get_position():
+    return jsonify(current_position)
 
 if __name__ == '__main__':
     app.run(debug=False)
